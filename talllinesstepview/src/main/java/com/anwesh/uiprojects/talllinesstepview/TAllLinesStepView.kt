@@ -4,6 +4,7 @@ package com.anwesh.uiprojects.talllinesstepview
  * Created by anweshmishra on 29/10/18.
  */
 
+import android.app.Activity
 import android.view.View
 import android.view.MotionEvent
 import android.graphics.Paint
@@ -201,6 +202,14 @@ class TAllLinesStepView(ctx : Context) : View(ctx) {
             tals.startUpdating {
                 animator.start()
             }
+        }
+    }
+
+    companion object {
+        fun create(activity : Activity) : TAllLinesStepView {
+            val view : TAllLinesStepView = TAllLinesStepView(activity)
+            activity.setContentView(view)
+            return view
         }
     }
 }
