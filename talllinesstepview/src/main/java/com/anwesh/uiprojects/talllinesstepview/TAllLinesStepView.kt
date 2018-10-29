@@ -48,14 +48,16 @@ class TAllLinesStepView(ctx : Context) : View(ctx) {
 
     private val paint : Paint = Paint(Paint.ANTI_ALIAS_FLAG)
 
-    override fun onDraw(canvas : Canvas) {
+    private val renderer : Renderer = Renderer(this)
 
+    override fun onDraw(canvas : Canvas) {
+        renderer.render(canvas, paint)
     }
 
     override fun onTouchEvent(event : MotionEvent) : Boolean {
         when (event.action) {
             MotionEvent.ACTION_DOWN -> {
-
+                renderer.handleTap()
             }
         }
         return true
@@ -185,7 +187,7 @@ class TAllLinesStepView(ctx : Context) : View(ctx) {
 
         private var dir : Int = 1
 
-        fun draw(canvas : Canvas, paint : Paint) {
+        fun render(canvas : Canvas, paint : Paint) {
             canvas.drawColor(Color.parseColor("#BDBDBD"))
             tals.draw(canvas, paint)
             animator.animate {
