@@ -35,7 +35,7 @@ fun Canvas.drawTALSNode(i : Int, scale : Float, paint : Paint) {
     translate(w/2, gap + gap * i)
     for (j in 0..2) {
         val sc : Float = Math.min(osc, Math.max(0f, scale - osc * j)) * lines
-        val lSize : Float = size * (1 + j % 2)
+        val lSize : Float = size * (1 + j % 2) * sc
         save()
         translate(0f, -size/2)
         rotate(90f * j)
@@ -87,7 +87,7 @@ class TAllLinesStepView(ctx : Context) : View(ctx) {
     data class Animator(var view : View, var animated : Boolean = false) {
 
         fun animate(cb : () -> Unit) {
-            if (!animated) {
+            if (animated) {
                 cb()
                 try {
                     Thread.sleep(50)
@@ -186,7 +186,6 @@ class TAllLinesStepView(ctx : Context) : View(ctx) {
 
         private val animator : Animator = Animator(view)
 
-        private var dir : Int = 1
 
         fun render(canvas : Canvas, paint : Paint) {
             canvas.drawColor(Color.parseColor("#BDBDBD"))
