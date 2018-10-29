@@ -33,7 +33,7 @@ fun Canvas.drawTALSNode(i : Int, scale : Float, paint : Paint) {
     save()
     translate(w/2, gap + gap * i)
     for (j in 0..2) {
-        val sc : Float = Math.min(osc, Math.max(0f, scale - osc * j)) * 3
+        val sc : Float = Math.min(osc, Math.max(0f, scale - osc * j)) * lines
         val lSize : Float = size * (1 + j % 2)
         save()
         translate(0f, -size/2)
@@ -59,5 +59,25 @@ class TAllLinesStepView(ctx : Context) : View(ctx) {
             }
         }
         return true
+    }
+
+    data class State(var scale : Float = 0f, var prevScale : Float = 0f, var dir : Float = 0f) {
+
+        fun update(cb : (Float) -> Unit) {
+            scale += (0.1f / lines) * dir
+            if (Math.abs(scale - prevScale) > 1) {
+                scale = prevScale + dir
+                dir = 0f
+                prevScale = scale
+                cb(prevScale)
+            }
+        }
+
+        fun startUpdating(cb : () -> Unit) {
+            if (dir == 0f) {
+                dir = 1f - 2 * prevScale
+                cb()
+            }
+        }
     }
 }
