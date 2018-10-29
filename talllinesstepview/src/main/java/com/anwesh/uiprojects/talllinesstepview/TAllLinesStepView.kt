@@ -176,4 +176,29 @@ class TAllLinesStepView(ctx : Context) : View(ctx) {
             curr.startUpdating(cb)
         }
     }
+
+    data class Renderer(var view : TAllLinesStepView) {
+
+        private val tals : TALLLinesStep = TALLLinesStep(0)
+
+        private val animator : Animator = Animator(view)
+
+        private var dir : Int = 1
+
+        fun draw(canvas : Canvas, paint : Paint) {
+            canvas.drawColor(Color.parseColor("#BDBDBD"))
+            tals.draw(canvas, paint)
+            animator.animate {
+                tals.update {i, scl ->
+                    animator.stop()
+                }
+            }
+        }
+
+        fun handleTap() {
+            tals.startUpdating {
+                animator.start()
+            }
+        }
+    }
 }
